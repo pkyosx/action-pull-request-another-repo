@@ -46,6 +46,7 @@ if git diff --name-only --exit-code
 then
   echo "No changes detected"
 else
+  git add .
   git commit --message "$INPUT_COMMIT_MESSAGE"
   echo "Pushing git commit"
   git push origin $INPUT_DESTINATION_HEAD_BRANCH
@@ -55,3 +56,4 @@ else
                --head $INPUT_DESTINATION_HEAD_BRANCH \
                --reviewer "$PULL_REQUEST_REVIEWERS"
 fi
+popd
