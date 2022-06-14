@@ -50,11 +50,17 @@ else
   git commit --message "$INPUT_COMMIT_MESSAGE"
   echo "Pushing git commit"
   git push origin $INPUT_DESTINATION_HEAD_BRANCH
-  echo "Creating a pull request"
-  gh pr create --title "$INPUT_PR_TITLE" \
-               --body "$INPUT_PR_BODY" \
-               --base $INPUT_DESTINATION_BASE_BRANCH \
-               --head $INPUT_DESTINATION_HEAD_BRANCH \
-               $PULL_REQUEST_REVIEWERS
+fi
+
+if git diff --name-only --exit-code $INPUT_DESTINATION_BASE_BRANCH..$INPUT_DESTINATION_HEAD_BRANCH
+then
+    echo "No PR required"
+else
+    echo "Creating a pull request"
+    gh pr create --title "$INPUT_PR_TITLE" \
+                 --body "$INPUT_PR_BODY" \
+                 --base $INPUT_DESTINATION_BASE_BRANCH \
+                 --head $INPUT_DESTINATION_HEAD_BRANCH \
+                 $PULL_REQUEST_REVIEWERS
 fi
 popd
