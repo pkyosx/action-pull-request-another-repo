@@ -60,7 +60,7 @@ then
                  --body "$INPUT_PR_BODY" \
                  --base $INPUT_DESTINATION_BASE_BRANCH \
                  --head $INPUT_DESTINATION_HEAD_BRANCH \
-                 $PULL_REQUEST_REVIEWERS || "echo fail to create PR: ignore"
+                 $PULL_REQUEST_REVIEWERS || echo "Fail to create PR: ignore"
     PR_NUMBER=$(gh pr list -B $INPUT_DESTINATION_BASE_BRANCH -H $INPUT_DESTINATION_HEAD_BRANCH --json=number --jq=.[].number)
 else
     echo "PR already exists"
