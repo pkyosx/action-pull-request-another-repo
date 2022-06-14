@@ -61,6 +61,6 @@ else
                  --body "$INPUT_PR_BODY" \
                  --base $INPUT_DESTINATION_BASE_BRANCH \
                  --head $INPUT_DESTINATION_HEAD_BRANCH \
-                 $PULL_REQUEST_REVIEWERS
+                 $PULL_REQUEST_REVIEWERS || "echo fail to create PR: ignore"
 fi
 popd
