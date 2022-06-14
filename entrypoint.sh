@@ -52,9 +52,9 @@ else
   git push origin $INPUT_DESTINATION_HEAD_BRANCH
 fi
 
-if git diff --name-only --exit-code $INPUT_DESTINATION_BASE_BRANCH..$INPUT_DESTINATION_HEAD_BRANCH
+if gh pr list -B $INPUT_DESTINATION_BASE_BRANCH -H $INPUT_DESTINATION_HEAD_BRANCH | grep $INPUT_DESTINATION_HEAD_BRANCH
 then
-    echo "No PR required"
+    echo "PR already exists"
 else
     echo "Creating a pull request"
     gh pr create --title "$INPUT_PR_TITLE" \
