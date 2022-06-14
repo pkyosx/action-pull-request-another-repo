@@ -37,7 +37,7 @@ rsync -r -v --delete-after --mkpath "$INPUT_SOURCE_FOLDER/" "$CLONE_DIR/$INPUT_D
 
 echo "Checkout to branch: $INPUT_DESTINATION_HEAD_BRANCH"
 cd "$CLONE_DIR"
-git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH" || git checkout "$INPUT_DESTINATION_HEAD_BRANCH"
+git checkout "$INPUT_DESTINATION_HEAD_BRANCH" || git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
 echo "Adding git commit"
 git add .
