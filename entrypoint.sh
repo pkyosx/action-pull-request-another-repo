@@ -19,7 +19,7 @@ if [ -z "$INPUT_PULL_REQUEST_REVIEWERS" ]
 then
   PULL_REQUEST_REVIEWERS=$INPUT_PULL_REQUEST_REVIEWERS
 else
-  PULL_REQUEST_REVIEWERS='-r '$INPUT_PULL_REQUEST_REVIEWERS
+  PULL_REQUEST_REVIEWERS='--reviewer '$INPUT_PULL_REQUEST_REVIEWERS
 fi
 
 CLONE_DIR=$(mktemp -d)
@@ -51,9 +51,10 @@ else
   echo "Pushing git commit"
   git push origin $INPUT_DESTINATION_HEAD_BRANCH
   echo "Creating a pull request"
-  gh pr create --title "$INPUT_TITLE" \
+  gh pr create --title "$INPUT_PR_TITLE" \
+               --body "$INPUT_PR_BODY" \
                --base $INPUT_DESTINATION_BASE_BRANCH \
                --head $INPUT_DESTINATION_HEAD_BRANCH \
-               --reviewer "$PULL_REQUEST_REVIEWERS"
+               $PULL_REQUEST_REVIEWERS
 fi
 popd

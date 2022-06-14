@@ -29,8 +29,11 @@ inputs:
   commit_message:
     description: "Commit message"
     required: true
-  title:
+  pr_title:
     description: "PR title"
+    required: true
+  pr_body:
+    description: "PR body"
     required: true
 
 runs:
@@ -46,7 +49,8 @@ runs:
     - ${{ inputs.destination-base-branch }}
     - ${{ inputs.pull-request-reviewers }}
     - ${{ inputs.commit-message }}
-    - ${{ inputs.title }}
+    - ${{ inputs.pr-title }}
+    - ${{ inputs.pr-body }}
 branding:
   icon: "git-commit"
   color: "green"
