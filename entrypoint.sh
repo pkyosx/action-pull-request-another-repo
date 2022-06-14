@@ -66,7 +66,7 @@ else
     echo "PR already exists"
 fi
 
-if [ "$INPUT_PR_MERGE" == "true" ]
+if [ "$INPUT_PR_FORCE_MERGE" == "true" ]
     if [ -z $PR_NUBER ]
     then
         echo "No PR number found"

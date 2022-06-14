@@ -35,8 +35,8 @@ inputs:
   pr_body:
     description: "PR body"
     required: true
-  pr_merge:
-    description: "Merge PR automatically"
+  pr_force_merge:
+    description: "Merge PR automatically using admin permission"
     required: false
 
 runs:
@@ -54,7 +54,7 @@ runs:
     - ${{ inputs.commit-message }}
     - ${{ inputs.pr-title }}
     - ${{ inputs.pr-body }}
-    - ${{ inputs.pr-merge }}
+    - ${{ inputs.pr-force-merge }}
 branding:
   icon: "git-commit"
   color: "green"
