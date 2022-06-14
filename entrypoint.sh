@@ -33,28 +33,25 @@ echo "Cloning destination git repository"
 git clone "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
 echo "Checkout to branch: $INPUT_DESTINATION_HEAD_BRANCH"
-cd "$CLONE_DIR"
+pushd "$CLONE_DIR"
 git checkout "$INPUT_DESTINATION_HEAD_BRANCH" || git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
+popd
 
 echo "Copying contents to git repo"
 rsync -r -v --delete-after --mkpath "$INPUT_SOURCE_FOLDER/" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 
-git status
-
 echo "Adding git commit"
-git add .
-
-git status
-if git status | grep -q "Changes to be committed"
+pushd "$CLONE_DIR"
+if git diff --name-only --exit-code
 then
+  echo "No changes detected"
+else
   git commit --message "$INPUT_COMMIT_MESSAGE"
   echo "Pushing git commit"
-  git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
+  git push origin $INPUT_DESTINATION_HEAD_BRANCH
   echo "Creating a pull request"
   gh pr create --title "$INPUT_TITLE" \
                --base $INPUT_DESTINATION_BASE_BRANCH \
                --head $INPUT_DESTINATION_HEAD_BRANCH \
                --reviewer "$PULL_REQUEST_REVIEWERS"
-else
-  echo "No changes detected"
 fi
