@@ -39,8 +39,12 @@ git checkout "$INPUT_DESTINATION_HEAD_BRANCH" || git checkout -b "$INPUT_DESTINA
 echo "Copying contents to git repo"
 rsync -r -v --delete-after --mkpath "$INPUT_SOURCE_FOLDER/" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 
+git status
+
 echo "Adding git commit"
 git add .
+
+git status
 if git status | grep -q "Changes to be committed"
 then
   git commit --message "$INPUT_COMMIT_MESSAGE"
