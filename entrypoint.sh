@@ -53,7 +53,7 @@ else
 fi
 
 PR_NUMBER=$(gh pr list -B $INPUT_DESTINATION_BASE_BRANCH -H $INPUT_DESTINATION_HEAD_BRANCH --json=number --jq=.[].number)
-if [ -z $PR_NUBER ]
+if [ -z $PR_NUMBER ]
 then
     echo "Creating a pull request"
     gh pr create --title "$INPUT_PR_TITLE" \
@@ -68,12 +68,12 @@ fi
 
 if [ "$INPUT_PR_FORCE_MERGE" == "true" ]
 then
-    if [ -z $PR_NUBER ]
+    if [ -z $PR_NUMBER ]
     then
         echo "No PR number found"
     else
         echo "Force PR merge"
-        gh pr merge --admin --rebase $PR_NUBER
+        gh pr merge --admin --rebase $PR_NUMBER
     fi
 fi
 popd
