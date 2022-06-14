@@ -67,6 +67,7 @@ else
 fi
 
 if [ "$INPUT_PR_FORCE_MERGE" == "true" ]
+then
     if [ -z $PR_NUBER ]
     then
         echo "No PR number found"
