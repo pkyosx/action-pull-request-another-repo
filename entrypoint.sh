@@ -32,12 +32,12 @@ git config --global user.name "$INPUT_USER_NAME"
 echo "Cloning destination git repository"
 git clone "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
-echo "Copying contents to git repo"
-rsync -r -v --delete-after --mkpath "$INPUT_SOURCE_FOLDER/" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
-
 echo "Checkout to branch: $INPUT_DESTINATION_HEAD_BRANCH"
 cd "$CLONE_DIR"
 git checkout "$INPUT_DESTINATION_HEAD_BRANCH" || git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
+
+echo "Copying contents to git repo"
+rsync -r -v --delete-after --mkpath "$INPUT_SOURCE_FOLDER/" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 
 echo "Adding git commit"
 git add .
