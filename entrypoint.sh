@@ -52,15 +52,27 @@ else
   git push origin $INPUT_DESTINATION_HEAD_BRANCH
 fi
 
-if gh pr list -B $INPUT_DESTINATION_BASE_BRANCH -H $INPUT_DESTINATION_HEAD_BRANCH | grep $INPUT_DESTINATION_HEAD_BRANCH
+PR_NUMBER=$(gh pr list -B $INPUT_DESTINATION_BASE_BRANCH -H $INPUT_DESTINATION_HEAD_BRANCH --json=number --jq=.[].number)
+if [ -z $PR_NUBER ]
 then
-    echo "PR already exists"
-else
     echo "Creating a pull request"
     gh pr create --title "$INPUT_PR_TITLE" \
                  --body "$INPUT_PR_BODY" \
                  --base $INPUT_DESTINATION_BASE_BRANCH \
                  --head $INPUT_DESTINATION_HEAD_BRANCH \
                  $PULL_REQUEST_REVIEWERS || "echo fail to create PR: ignore"
+    PR_NUMBER=$(gh pr list -B $INPUT_DESTINATION_BASE_BRANCH -H $INPUT_DESTINATION_HEAD_BRANCH --json=number --jq=.[].number)
+else
+    echo "PR already exists"
+fi
+
+if [ "$INPUT_PR_MERGE" == "true" ]
+    if [ -z $PR_NUBER ]
+    then
+        echo "No PR number found"
+    else
+        echo "Force PR merge"
+        gh pr merge --admin --rebase $PR_NUBER
+    fi
 fi
 popd

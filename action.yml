@@ -35,6 +35,9 @@ inputs:
   pr_body:
     description: "PR body"
     required: true
+  pr_merge:
+    description: "Merge PR automatically"
+    required: false
 
 runs:
   using: "docker"
@@ -51,6 +54,7 @@ runs:
     - ${{ inputs.commit-message }}
     - ${{ inputs.pr-title }}
     - ${{ inputs.pr-body }}
+    - ${{ inputs.pr-merge }}
 branding:
   icon: "git-commit"
   color: "green"
